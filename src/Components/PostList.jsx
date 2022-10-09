@@ -6,8 +6,10 @@ export const PostList = ({posts, title}) => {
         <div>
             <h1 style={{textAlign: 'center'}}>{title}</h1>
 
-            {posts.map((el) => (
+            {posts.map((el, i) => (
+
                 <PostItem key={el.id}
+                          number={i + 1}
                           post={el}
                 />
             ))}
