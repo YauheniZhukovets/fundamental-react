@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './styles/App.css'
 import {PostList} from "./Components/PostList";
 import {Button} from "./Components/UI/button/Button";
@@ -15,28 +15,37 @@ function App() {
     ])
 
     const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+    const bodyInputRef = useRef('')
+
 
     const addNewPost = (e) => {
         e.preventDefault()
-        setPosts([...posts, {id: 5, title: name, body: description}])
+
+        const body = bodyInputRef.current.value
+
+        setPosts([...posts, {id: 5, title: name, body}])
+
         setName('')
-        setDescription('')
+        bodyInputRef.current['value'] = ''
     }
 
     return (
         <div className='App'>
 
             <form>
+
+                {/*Управляемый input*/}
                 <Input value={name}
                        type="text"
                        placeholder={'Название поста'}
                        onChange={(e) => setName(e.currentTarget.value)}
                 />
-                <Input value={description}
-                       type="text"
-                       placeholder={"Описание поста"}
-                       onChange={(e) => setDescription(e.currentTarget.value)}
+
+                {/*Неуправляемый input*/}
+                <Input
+                    ref={bodyInputRef}
+                    type="text"
+                    placeholder={"Описание поста"}
                 />
                 <Button onClick={addNewPost}>Создать пост</Button>
             </form>

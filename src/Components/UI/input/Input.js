@@ -2,9 +2,9 @@ import React from 'react';
 import s from './Input.module.css'
 
 
-export const Input = ({...props}) => {
+export const Input = React.forwardRef((props, ref) => {
 
     return (
-        <input {...props} className={s.ownInput}/>
+        <input {...props} ref={ref} className={s.ownInput}/>
     )
-}
+})
