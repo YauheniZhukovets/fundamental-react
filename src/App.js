@@ -1,67 +1,78 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles/App.css'
 import {PostList} from "./Components/PostList";
 import {PostForm} from "./Components/PostForm";
-import {Select} from "./Components/UI/select/Select";
+import {PostFilter} from "./Components/PostFilter";
+import {Modal} from "./Components/UI/modal/Modal";
+import {Button} from "./Components/UI/button/Button";
+import {usePosts} from "./hooks/usePosts";
+import PostService from "./API/postService";
+import {Loader} from "./Components/UI/loder/Loader";
+import {useFetching} from "./hooks/useFetching";
 
 
 function App() {
 
-    const [posts, setPosts] = useState([{
-        id: 1,
-        title: 'JavaScript',
-        body: 'Language programing'
-    }, {
-        id: 2,
-        title: 'CSS',
-        body: 'Styles for html'
-    }, {
-        id: 3,
-        title: 'React',
-        body: 'Library JS'
-    },])
+    const [posts, setPosts] = useState([])
+    const [filter, setFilter] = useState({sort: '', query: ''})
+    const [modal, setModal] = useState(false)
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
-    const [selectedSort, setSelectedSort] = useState('')
+    const [fetchPost, isPostLoading, errorFetchPost] = useFetching(async () => {
+        const posts = await PostService.getAll()
+        setPosts(posts)
+    })
+
+    useEffect(() => {
+        fetchPost()
+    }, [])
 
 
     const addPost = (newPost) => {
         setPosts([newPost, ...posts])
+        setModal(false)
     }
 
     const deletePost = (postId) => {
         setPosts(posts.filter(post => post.id !== postId))
     }
 
-    const sortPost = (sort) => {
-        setSelectedSort(sort)
-        setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-    }
+    return (
+        <div className='App'>
 
-    return (<div className='App'>
-        <PostForm createPost={addPost}/>
+            <Button style={{marginTop: 20}}
+                    onClick={() => setModal(true)}
+            >
+                Создать пост
+            </Button>
 
-        <hr style={{margin: '15px 0'}}/>
+            <Modal visible={modal} setVisible={setModal}>
+                <PostForm createPost={addPost}/>
+            </Modal>
 
-        <div>
-            <Select value={selectedSort}
-                    onChange={sortPost}
-                    defaultValue={'Сортировка'}
-                    options={[
-                        {value: 'title', name: 'По названию'},
-                        {value: 'body', name: 'По описанию'},
-                    ]}
+            <hr style={{margin: '15px 0'}}/>
+
+            <PostFilter filter={filter}
+                        setFilter={setFilter}
             />
-        </div>
 
-        {
-            posts.length
-                ?
-                <PostList deletePost={deletePost} posts={posts} title={'Список постов'}/>
-                :
-                <h1 style={{textAlign: 'center'}}>Посты не найдены</h1>
-        }
+            {
+                errorFetchPost &&
+                <h1>Произошла ошибка: {errorFetchPost}</h1>
+            }
 
-    </div>)
+            {
+                isPostLoading
+                    ? <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Loader/>
+                    </div>
+                    : <PostList deletePost={deletePost}
+                                posts={sortedAndSearchedPosts}
+                                title={'Список постов'}
+                    />
+            }
+
+        </div>)
 }
 
 export default App;
