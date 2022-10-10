@@ -1,7 +1,7 @@
 import React from 'react';
 import {PostItem} from "./PostItem";
 
-export const PostList = ({posts, title}) => {
+export const PostList = ({posts, title, deletePost}) => {
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>{title}</h1>
@@ -11,6 +11,7 @@ export const PostList = ({posts, title}) => {
                 <PostItem key={el.id}
                           number={i + 1}
                           post={el}
+                          deletePost={deletePost}
                 />
             ))}
 

@@ -1,7 +1,11 @@
 import React from 'react';
+import {Button} from "./UI/button/Button";
 
-export const PostItem = ({post, number}) => {
+export const PostItem = ({post, number, deletePost}) => {
 
+    const removePost = () => {
+        deletePost(post.id)
+    }
 
     return (
         <div className="post">
@@ -13,7 +17,7 @@ export const PostItem = ({post, number}) => {
             </div>
 
             <div className="post__btns">
-                <button>Удалить</button>
+                <Button onClick={removePost}>Удалить</Button>
             </div>
         </div>
     )
