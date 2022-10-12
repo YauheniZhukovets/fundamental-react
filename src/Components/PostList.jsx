@@ -17,14 +17,12 @@ export const PostList = ({posts, title, deletePost}) => {
                         timeout={500}
                         classNames="post"
                     >
-                        <PostItem number={i + 1}
-                                  post={el}
+                        <PostItem post={el}
                                   deletePost={deletePost}
                         />
 
                     </CSSTransition>
                 ))}
-
             </TransitionGroup>
         </div>
     )

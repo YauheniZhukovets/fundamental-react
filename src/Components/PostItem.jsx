@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from "./UI/button/Button";
 
-export const PostItem = ({post, number, deletePost}) => {
+export const PostItem = ({post, deletePost}) => {
 
     const removePost = () => {
         deletePost(post.id)
@@ -10,7 +10,7 @@ export const PostItem = ({post, number, deletePost}) => {
     return (
         <div className="post">
             <div className="post__content">
-                <strong>{number}. {post.title}</strong>
+                <strong>{post.id}. {post.title}</strong>
                 <div>
                     {post.body}
                 </div>
