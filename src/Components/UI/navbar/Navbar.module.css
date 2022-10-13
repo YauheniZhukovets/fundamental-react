@@ -1,0 +1,20 @@
+.navbar {
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background-color: #e8f5f5;
+}
+
+.links {
+    padding: 0 10px;
+    margin-left: auto;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.active {
+    color: #6ea1d2;
+}

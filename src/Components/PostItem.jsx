@@ -1,7 +1,9 @@
 import React from 'react';
 import {Button} from "./UI/button/Button";
+import {NavLink} from "react-router-dom";
 
 export const PostItem = ({post, deletePost}) => {
+
 
     const removePost = () => {
         deletePost(post.id)
@@ -17,6 +19,7 @@ export const PostItem = ({post, deletePost}) => {
             </div>
 
             <div className="post__btns">
+                <NavLink to={`/post/${post.id}`}><Button>Открыть</Button></NavLink>
                 <Button onClick={removePost}>Удалить</Button>
             </div>
         </div>

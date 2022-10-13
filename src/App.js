@@ -1,12 +1,17 @@
 import React from 'react';
 import './styles/App.css'
-import {Posts} from "./pages/Posts";
+import {BrowserRouter} from "react-router-dom";
+import {Navbar} from "./Components/UI/navbar/Navbar";
+import {AppRouter} from "./Components/AppRouter";
 
 
 function App() {
 
     return (
-        <Posts/>
+        <BrowserRouter>
+            <Navbar/>
+            <AppRouter/>
+        </BrowserRouter>
     )
 }
 
