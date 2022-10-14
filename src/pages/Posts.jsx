@@ -22,7 +22,6 @@ export const Posts = () => {
     const [page, setPage] = useState(1)
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
-
     const [fetchPost, isPostLoading, errorFetchPost] = useFetching(async () => {
         const res = await PostService.getAll(limit, page)
         setPosts(res.data)
